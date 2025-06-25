@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Δημιουργία Θέσης Πρακτικής</title>
+</head>
+<body>
+    <h2>Δημιουργία Νέας Θέσης Πρακτικής</h2>
+
+    <form th:action="@{/company/create-position}" th:object="${traineeshipPosition}" method="post">
+
+        <!-- Τίτλος -->
+        <label for="title">Τίτλος:</label>
+        <input type="text" id="title" th:field="*{title}" required><br>
+
+        <!-- Περιγραφή -->
+        <label for="description">Περιγραφή:</label>
+        <textarea id="description" th:field="*{description}" required></textarea><br>
+
+        <!-- Τοποθεσία -->
+        <label for="location">Τοποθεσία:</label>
+        <input type="text" id="location" th:field="*{location}" required><br>
+
+        
+
+        <!-- Διάρκεια -->
+        <label for="duration">Διάρκεια (σε εβδομάδες):</label>
+        <input type="number" id="duration" th:field="*{duration}" min="1" required><br>
+
+
+        <!-- Required Skills -->
+        <label for="requiredSkills">Απαιτούμενες Δεξιότητες:</label>
+        <textarea id="requiredSkills" th:field="*{requiredSkills}" required></textarea><br>
+
+        <!-- Topics of Interest -->
+        <label for="topics_of_interest">Ενδιαφέροντα:</label>
+        <textarea id="topics_of_interest" th:field="*{topics_of_interest}" required></textarea><br>
+
+        <button type="submit">Αποθήκευση Θέσης</button>
+    </form>
+</body>
+</html>

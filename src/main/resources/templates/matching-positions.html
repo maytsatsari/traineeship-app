@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Θέσεις που ταιριάζουν με τον φοιτητή</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            padding: 40px;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        th, td {
+            padding: 14px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border: 1px solid #c3e6cb;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border: 1px solid #f5c6cb;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .assign-button {
+            padding: 6px 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .assign-button:hover {
+            background-color: #218838;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back-link:hover {
+            background-color: #5a6268;
+        }
+
+        .empty-row {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Θέσεις που ταιριάζουν για τον φοιτητή <span th:text="${student.fullName}"></span></h2>
+
+<div th:if="${successMessage}" class="success-message" th:text="${successMessage}"></div>
+<div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+<div class="info">
+    <p><strong>Προτιμώμενη Τοποθεσία:</strong> <span th:text="${student.preferredLocation}"></span></p>
+    <p><strong>Ενδιαφέροντα:</strong> <span th:text="${student.interests}"></span></p>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Τίτλος</th>
+            <th>Περιγραφή</th>
+            <th>Τοποθεσία</th>
+            <th>Εταιρεία</th>
+            <th>Ενέργεια</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="pos : ${positions}">
+            <td th:text="${pos.title}"></td>
+            <td th:text="${pos.description}"></td>
+            <td th:text="${pos.location}"></td>
+            <td th:text="${pos.company.companyName}"></td>
+            <td>
+                <form th:action="@{'/assign/' + ${student.id} + '/' + ${pos.id}}" method="post">
+                    <button type="submit" class="assign-button">Ανάθεση</button>
+                </form>
+            </td>
+        </tr>
+
+        <tr th:if="${positions == null or positions.isEmpty()}">
+            <td colspan="5" class="empty-row">Δεν βρέθηκαν διαθέσιμες θέσεις που να ταιριάζουν.</td>
+        </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/committee_students}" class="back-link"> Πίσω στη λίστα φοιτητών</a>
+
+</body>
+</html>

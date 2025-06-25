@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ανάθεση Καθηγητή Επίβλεψης</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 12px 0;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <h2> Ανάθεση Καθηγητή για Θέση Πρακτικής</h2>
+
+    <p><strong>Τίτλος Θέσης:</strong> <span th:text="${position.title}"></span></p>
+    <p><strong>Ενδιαφέροντα Θέσης:</strong> <span th:text="${position.topicsOfInterest}"></span></p>
+
+    <form th:action="@{/committee/assign-professor}" method="post">
+        <input type="hidden" name="positionId" th:value="${position.id}" />
+
+        <label for="professorId">Επιλογή Καθηγητή:</label>
+        <select name="professorId" id="professorId" required>
+            <option value="" disabled selected>-- Επιλέξτε Καθηγητή --</option>
+            <option th:each="p : ${professors}"
+                    th:value="${p.id}"
+                    th:text="${p.fullName + ' - Ενδιαφέροντα: ' + p.interests}">
+            </option>
+        </select>
+
+        <button type="submit"> Ανάθεση</button>
+    </form>
+
+    <a class="back-link" th:href="@{/committee_dashboard}"> Επιστροφή στο Dashboard</a>
+
+</body>
+</html>

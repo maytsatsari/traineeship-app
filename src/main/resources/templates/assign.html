@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ανάθεση Θέσης σε Φοιτητή</title>
+</head>
+<body>
+
+    <h1>Ανάθεση Θέσης σε Φοιτητή</h1>
+
+    <!-- Λίστα Φοιτητών -->
+    <h2>Φοιτητές</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Όνομα Φοιτητή</th>
+                <th>Ανάθεση Θέσης</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.name}">Όνομα Φοιτητή</td>
+                <td>
+                    <!-- Φόρμα για Ανάθεση Θέσης -->
+                    <form th:action="@{'/committee/assign/' + ${student.id} + '/' + ${position.id}}" method="post">
+                        <label for="position">Επιλέξτε Θέση:</label>
+                        <select name="position" id="position">
+                            <option th:each="position : ${positions}" th:value="${position.id}" 
+                                    th:text="${position.name}">Θέση</option>
+                        </select>
+                        <button type="submit" class="assign-button">Ανάθεση</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

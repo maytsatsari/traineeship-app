@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="el" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ημερολόγιο Πρακτικής</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        h2, h3 {
+            color: #333;
+        }
+
+        textarea {
+            width: 80%;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 8px 0;
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <h2>Ημερολόγιο Πρακτικής</h2>
+
+    <h3>Καταχωρημένες Εγγραφές:</h3>
+    <ul>
+        <li th:each="entry : ${student.logbook}" th:text="${entry}">[Entry]</li>
+    </ul>
+
+    <h3>Νέα Καταγραφή:</h3>
+    <form th:action="@{/student/logbook}" method="post">
+        <textarea name="entry" rows="4" cols="60" placeholder="Περιγράψτε τι κάνατε σήμερα..."></textarea><br>
+        <div class="btn-container">
+            <button type="submit" class="btn btn-primary">Καταχώρηση</button>
+            <a th:href="@{/student/logbook/export-pdf}" class="btn btn-success"> Εξαγωγή σε PDF</a>
+            <a th:href="@{/student_dashboard}" class="btn btn-secondary"> Πίσω στο Dashboard</a>
+        </div>
+    </form>
+</body>
+</html>

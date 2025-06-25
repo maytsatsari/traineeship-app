@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Πίνακας Επιτροπής</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .button-grid {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 16px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+        }
+
+        .logout-btn:hover {
+            background-color: #b02a37;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Καλώς ήρθατε στον Πίνακα της Επιτροπής</h1>
+
+<div class="button-grid">
+    <div class="column">
+        <a th:href="@{/committee_position_applicants}" class="btn">Προβολή Φοιτητών Που Έκαναν Αίτηση</a>
+        <a th:href="@{/company_available_positions}" class="btn">Θέσεις από Εταιρείες</a>
+        <a th:href="@{/committee_students}" class="btn">Φοιτητές με Αίτηση</a>
+        <a th:href="@{/company_assigned_positions}" class="btn">Θέσεις Που έχουν δοθεί</a>
+    </div>
+    <div class="column">
+        <a th:href="@{/committee/assign-supervisors}" class="btn">Ανάθεση Καθηγητών</a>
+        <a th:href="@{/committee/summary}" class="btn">Στατιστικά Θέσεων</a>
+        <a th:href="@{/committee/evaluations}" class="btn">Ολοκλήρωση Θέσεων (PASS / FAIL)</a>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn logout-btn">Αποσύνδεση</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

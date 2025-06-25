@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Εγγραφή Καθηγητή</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h2>Εγγραφή Καθηγητή</h2>
+
+    <form th:action="@{/register-professor}" th:object="${professor}" method="post">
+        <!-- CSRF Token -->
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+        <label>Όνομα:</label>
+        <input type="text" th:field="*{firstName}" required /><br/>
+
+        <label>Επώνυμο:</label>
+        <input type="text" th:field="*{lastName}" required /><br/>
+
+        <label>Username:</label>
+        <input type="text" th:field="*{username}" required /><br/>
+
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" required /><br/>
+
+        <label>Κωδικός:</label>
+        <input type="password" th:field="*{password}" required /><br/>
+
+        <label>Επιβεβαίωση Κωδικού:</label>
+        <input type="password" name="confirmPassword" required /><br/>
+
+        <label>Ενδιαφέροντα (χώρισε τα με κόμμα):</label>
+        <input type="text" name="interestsInput" placeholder="π.χ. AI, Databases, ML" /><br/>
+
+        <!-- Προβολή σφάλματος αν υπάρχει -->
+        <div th:if="${error}" style="color:red;">[[${error}]]</div><br/>
+
+        <button type="submit">Εγγραφή</button>
+    </form>
+</body>
+</html>

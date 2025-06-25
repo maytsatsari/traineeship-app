@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Αιτήσεις Φοιτητών</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            padding: 40px;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        th, td {
+            padding: 14px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        td {
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Όλες οι Αιτήσεις Φοιτητών</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Θέση</th>
+            <th>Φοιτητής</th>
+            <th>Αρ. Μητρώου</th>
+            <th>Email</th>
+            <th>Προτιμώμενη Τοποθεσία</th>
+        </tr>
+    </thead>
+    <tbody>
+        <th:block th:each="pos : ${positions}">
+            <tr th:each="student : ${pos.applicants}">
+                <td th:text="${pos.title}">Θέση</td>
+                <td th:text="${student.username}">Φοιτητής</td>
+                <td th:text="${student.registrationNumber}">ΑΜ</td>
+                <td th:text="${student.email}">Email</td>
+                <td th:text="${student.preferredLocation}">Τοποθεσία</td>
+            </tr>
+        </th:block>
+    </tbody>
+</table>
+
+<div style="text-align: center;">
+    <a th:href="@{/committee_dashboard}" class="back-button"> Επιστροφή στο Dashboard</a>
+</div>
+
+</body>
+</html>

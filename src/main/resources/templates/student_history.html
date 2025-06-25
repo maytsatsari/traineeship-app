@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Ιστορικό Πρακτικής Άσκησης</title>
+</head>
+<body>
+    <h1>Ιστορικό Πρακτικής Άσκησης</h1>
+
+    <table border="1">
+        <tr>
+            <th>Θέση</th>
+            <th>Εταιρεία</th>
+            <th>Περίοδος</th>
+            <th>Αξιολόγηση</th>
+        </tr>
+        <tr th:each="internship : ${internships}">
+            <td th:text="${internship.position.title}"></td>
+            <td th:text="${internship.position.company.name}"></td>
+            <td>
+                <span th:text="${internship.startDate}"></span> - 
+                <span th:text="${internship.endDate}"></span>
+            </td>
+            <td th:text="${internship.evaluation != null ? internship.evaluation : 'Χωρίς αξιολόγηση'}"></td>
+        </tr>
+    </table>
+
+    <a href="/student/dashboard"> Επιστροφή στον Πίνακα Ελέγχου</a>
+</body>
+</html>

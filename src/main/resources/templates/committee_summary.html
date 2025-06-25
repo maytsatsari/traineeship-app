@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Στατιστικά Επιτροπής</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 40px;
+            background-color: #f1f4f9;
+        }
+
+        h2 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            width: 230px;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card h4 {
+            margin: 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .card p {
+            margin-top: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        #piechart {
+            margin: 40px auto 20px;
+            width: 450px;
+            height: 300px;
+        }
+
+        .back-button {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-button a {
+            background-color: #343a40;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .back-button a:hover {
+            background-color: #212529;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #piechart {
+                width: 100%;
+            }
+        }
+    </style>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var pass = /*[[${pass}]]*/ 0;
+            var fail = /*[[${fail}]]*/ 0;
+
+            var data = google.visualization.arrayToDataTable([
+                ['Κατάσταση', 'Πλήθος'],
+                ['PASS', pass],
+                ['FAIL', fail]
+            ]);
+
+            var options = {
+                title: 'PASS / FAIL Θέσεων',
+                pieHole: 0.45,
+                colors: ['#28a745', '#dc3545'],
+                legend: { position: 'right' },
+                chartArea: { width: '80%', height: '80%' }
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+        /*]]>*/
+    </script>
+</head>
+<body>
+
+    <h2> Στατιστικά Θέσεων Πρακτικής</h2>
+
+    <div class="dashboard-container">
+
+        <div class="card">
+            <h4>Συνολικές Θέσεις</h4>
+            <p th:text="${total}">0</p>
+        </div>
+
+        <div class="card">
+            <h4>Θέσεις με PASS</h4>
+            <p th:text="${pass}">0</p>
+        </div>
+
+        <div class="card">
+            <h4>Θέσεις με FAIL</h4>
+            <p th:text="${fail}">0</p>
+        </div>
+
+        <div class="card">
+            <h4>Assigned Φοιτητές</h4>
+            <p th:text="${assigned}">0</p>
+        </div>
+
+        <div class="card">
+            <h4>Συμμετέχουσες Εταιρείες</h4>
+            <p th:text="${companies}">0</p>
+        </div>
+
+    </div>
+
+    <div id="piechart"></div>
+
+    <div class="back-button">
+        <a th:href="@{/committee_dashboard}">Επιστροφή στο Dashboard</a>
+    </div>
+
+</body>
+</html>

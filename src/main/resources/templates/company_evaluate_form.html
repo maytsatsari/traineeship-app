@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Αξιολόγηση Φοιτητή</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            padding: 40px;
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        form {
+            max-width: 550px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<h2> Αξιολόγηση Φοιτητή από Εταιρεία</h2>
+
+<form th:action="@{/company/submit-evaluation}" th:object="${evaluation}" method="post">
+    <input type="hidden" th:field="*{student.id}" />
+    <input type="hidden" th:field="*{position.id}" />
+
+    <label for="companyMotivation">Κίνητρο (1-5):</label>
+    <input type="number" id="companyMotivation" min="1" max="5" th:field="*{companyMotivation}" required />
+
+    <label for="companyEffectiveness">Αποτελεσματικότητα (1-5):</label>
+    <input type="number" id="companyEffectiveness" min="1" max="5" th:field="*{companyEffectiveness}" required />
+
+    <label for="companyEfficiency">Αποδοτικότητα (1-5):</label>
+    <input type="number" id="companyEfficiency" min="1" max="5" th:field="*{companyEfficiency}" required />
+
+    <label for="comments">Σχόλια (προαιρετικά):</label>
+    <textarea id="comments" th:field="*{comments}" rows="4" placeholder="Γράψτε τα σχόλιά σας..."></textarea>
+
+    <button type="submit">Υποβολή Αξιολόγησης</button>
+</form>
+
+<a th:href="@{/company/assigned-positions}" class="back-button"> Επιστροφή </a>
+
+</body>
+</html>

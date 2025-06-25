@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Επιβεβαίωση Στοιχείων Αίτησης</title>
+</head>
+<body>
+	<div th:if="${successMessage}" style="text-align:center; color:green; font-weight:bold; margin-bottom:20px;">
+	    <p th:text="${successMessage}"></p>
+	</div>
+
+
+    <h2> Επιβεβαίωση Στοιχείων Αίτησης Πρακτικής</h2>
+
+    <form th:action="@{/student/submit-application}" method="post">
+        <!-- Κρύβουμε το id της θέσης -->
+        <input type="hidden" name="positionId" th:value="${position.id}" />
+
+        <label>Αριθμός Μητρώου:</label>
+        <input type="text" th:value="${student.registrationNumber}" readonly><br><br>
+
+        <label>Προτιμώμενη Τοποθεσία:</label>
+        <input type="text" th:value="${student.preferredLocation}" readonly><br><br>
+
+    
+        <label>Email:</label>
+        <input type="email" th:value="${student.email}" readonly><br><br>
+
+        <button type="submit"> Επιβεβαίωση Αίτησης</button>
+    </form>
+
+    <br>
+    <a th:href="@{/student/available-positions}">Επιστροφή στις Θέσεις</a>
+
+</body>
+</html>

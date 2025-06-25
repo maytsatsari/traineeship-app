@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Φοιτητικό Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            padding: 40px;
+            background-color: #f4f6f9;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        .section {
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .danger {
+            background-color: #dc3545;
+        }
+
+        .danger:hover {
+            background-color: #c82333;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            max-width: 600px;
+            text-align: left;
+        }
+
+        .card h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+
+        .info-item {
+            margin-bottom: 12px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #444;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .status-pass {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-fail {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-none {
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+	<div th:if="${successMessage != null and !successMessage.isEmpty()}" 
+	     style="max-width: 600px; margin: 20px auto; padding: 15px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 6px; text-align: center; font-weight: bold;">
+	    <p th:text="${successMessage}"></p>
+	</div>
+
+    <h1> Φοιτητικό Dashboard</h1>
+    <p>Καλωσήρθατε στο Dashboard σας!</p>
+	
+    <div class="section">
+        <a href="/student/available-positions" class="btn"> Διαθέσιμες Θέσεις</a>
+        <a href="/student/logbook" class="btn"> Ημερολόγιο Πρακτικής</a>
+        <a href="/student_edit_profile" class="btn"> Επεξεργασία Προφίλ</a>
+    </div>
+
+    <div class="section">
+        <div th:if="${position == null}" class="card">
+            <h3>Κατάσταση Θέσης</h3>
+            <p class="status-none"> Δεν έχετε ακόμη τοποθετηθεί σε θέση πρακτικής.</p>
+        </div>
+
+        <div th:if="${position != null}" class="card">
+            <h3> Πληροφορίες Θέσης</h3>
+
+            <div class="info-item">
+                <span class="label">Κατάσταση:</span>
+                <span th:if="${position.finalResult == null}" class="status status-pending">Σε εξέλιξη</span>
+                <span th:if="${position.finalResult == 'PASS'}" class="status status-pass"> PASS</span>
+                <span th:if="${position.finalResult == 'FAIL'}" class="status status-fail"> FAIL</span>
+            </div>
+
+            <div class="info-item">
+                <span class="label">Τίτλος:</span> <span th:text="${position.title}">-</span>
+            </div>
+
+            <div class="info-item">
+                <span class="label">Εταιρεία:</span> <span th:text="${position.company.companyName}">-</span>
+            </div>
+
+            <div class="info-item">
+                <span class="label">Καθηγητής Επίβλεψης:</span>
+                <span th:if="${position.supervisingProfessor != null}" th:text="${position.supervisingProfessor.fullName}">Καθηγητής</span>
+                <span th:if="${position.supervisingProfessor == null}">Δεν έχει ανατεθεί</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn danger"> Αποσύνδεση</button>
+        </form>
+    </div>
+
+</body>
+</html>

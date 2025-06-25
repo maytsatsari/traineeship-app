@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Αρχική Σελίδα</title>
+</head>
+<body>
+    <h1>Καλωσήρθες στην αρχική σελίδα!</h1>
+
+    <p>Επέλεξε μία από τις παρακάτω ενέργειες:</p>
+
+    <a th:href="@{/login}">
+        <button>Σύνδεση</button>
+    </a>
+
+    <a th:href="@{/register}">
+        <button>Εγγραφή</button>
+    </a>
+</body>
+</html>

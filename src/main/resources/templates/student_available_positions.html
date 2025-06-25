@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="el" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Διαθέσιμες Θέσεις Πρακτικής</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            padding: 40px;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+ 
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+ 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+ 
+        th, td {
+            padding: 14px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 15px;
+        }
+ 
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: 600;
+        }
+ 
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+ 
+        button {
+            padding: 8px 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+ 
+        button:hover {
+            background-color: #218838;
+        }
+ 
+        .back-link {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+            color: #007bff;
+            font-size: 16px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+ 
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+	
+    <h2> Διαθέσιμες Θέσεις Πρακτικής</h2>
+ 
+    <table>
+        <thead>
+            <tr>
+                <th>Τίτλος</th>
+                <th>Περιγραφή</th>
+                <th>Τοποθεσία</th>
+                <th>Διάρκεια</th>
+                <th>Απαιτούμενες Δεξιότητες</th>
+                <th>Ενδιαφέροντα</th>
+                <th>Ενέργεια</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pos : ${positions}">
+                <td th:text="${pos.title}">Τίτλος</td>
+                <td th:text="${pos.description}">Περιγραφή</td>
+                <td th:text="${pos.location}">Τοποθεσία</td>
+                <td th:text="${pos.duration + ' εβδομάδες'}">Διάρκεια</td>
+                <td th:text="${pos.requiredSkills}">Δεξιότητες</td>
+                <td th:text="${pos.topics_of_interest}">Ενδιαφέροντα</td>
+                <td>
+                    <a th:href="@{/student/apply-form(positionId=${pos.id})}">
+                        <button type="button">Αίτηση</button>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+ 
+    <a th:href="@{/student_dashboard}" class="back-link"> Επιστροφή στο Dashboard</a>
+ 
+</body>
+</html>
+ 

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="el" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Οι Αιτήσεις Μου</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .back-button {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+
+<h1> Οι Αιτήσεις Μου</h1>
+
+
+<input type="text" id="searchInput" class="search-box" placeholder=" Αναζήτηση σε τίτλο ή εταιρεία...">
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Θέση</th>
+            <th>Εταιρεία</th>
+            <th>Κατάσταση</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:each="app : ${applications}" class="filter-row">
+        <td th:text="${app.id}"></td>
+        <td th:text="${app.positionTitle}"></td>
+        <td th:text="${app.company.name}"></td>
+        <td th:text="${app.status}"></td>
+    </tr>
+    <tr th:if="${applications.size() == 0}">
+        <td colspan="4" style="text-align:center; color: #777;">Δεν υπάρχουν αιτήσεις.</td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/student_dashboard" class="back-button">Πίσω στο Dashboard</a>
+
+
+<script>
+    document.getElementById("searchInput").addEventListener("keyup", function () {
+        let filter = this.value.toLowerCase();
+        document.querySelectorAll("tr.filter-row").forEach(function (row) {
+            row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
+        });
+    });
+</script>
+
+</body>
+</html>

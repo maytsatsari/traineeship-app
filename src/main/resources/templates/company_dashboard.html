@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Πίνακας Ελέγχου Εταιρείας</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Καλώς ήρθατε, <span th:text="${company.companyName}">Όνομα Εταιρείας</span>!</h1>
+    </header>
+
+    <section>
+        <h2>Στοιχεία Εταιρείας</h2>
+        <ul>
+            <li><strong>Τοποθεσία:</strong> <span th:text="${company.location}">Πόλη</span></li>
+            <li><strong>Email:</strong> <span th:text="${company.email}">email@example.com</span></li>
+        </ul>
+    </section>
+
+    <section>
+        <ul>
+            <li><a th:href="@{/company/available_positions}"> Προβολή Διαθέσιμων Θέσεων</a></li>
+            <li><a th:href="@{/company/create-position}"> Δημιουργία Νέας Θέσης Πρακτικής</a></li>
+            <li><a th:href="@{/company/assigned-positions}"> Προβολή θέσεων που έχουν ανατεθεί</a></li>
+               <li>     <a th:href="@{/company/edit-profile}">Edit Company Profile</a></li>       </ul>
+    </section>
+		<form th:action="@{/logout}" method="post" style="display: inline;">
+		    <button type="submit" class="btn" style="background-color: #dc3545;"> Αποσύνδεση</button>
+		</form>
+	<footer>
+        <p>&copy; 2025 Traineeship App</p>
+    </footer>
+    
+</body>
+</html>

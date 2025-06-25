@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Αίτηση για Θέση</title>
+</head>
+<body>
+
+<h2>Αίτηση για Θέση Πρακτικής</h2>
+
+<div th:if="${position != null}">
+    <p><strong>Τίτλος:</strong> <span th:text="${position.title}"></span></p>
+    <p><strong>Περιγραφή:</strong> <span th:text="${position.description}"></span></p>
+    <p><strong>Τοποθεσία:</strong> <span th:text="${position.location}"></span></p>
+    <p><strong>Διάρκεια:</strong> <span th:text="${position.duration}"></span></p>
+
+    <form th:action="@{/student/apply}" method="post">
+        <input type="hidden" name="positionId" th:value="${position.id}" />
+        <button type="submit">Επιβεβαίωση Αίτησης</button>
+    </form>
+</div>
+
+<a th:href="@{/student/available-positions}"> Επιστροφή</a>
+</body>
+</html>

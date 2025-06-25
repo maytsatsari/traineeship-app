@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Εγγραφή Επιτροπής</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2> Εγγραφή Μέλους Επιτροπής</h2>
+
+<form th:action="@{/register-committee}" method="post" th:object="${committeeMember}">
+    
+    <input type="text" th:field="*{user.username}" placeholder="Username" required/>
+    <br><br>
+    
+    <input type="password" th:field="*{user.password}" placeholder="Password" required/>
+    <br><br>
+    
+    <input type="password" name="confirmPassword" placeholder="Confirm Password" required/>
+    <br><br>
+
+    <input type="text" th:field="*{user.email}" placeholder="Email" required/>
+    <br><br>
+    
+    <input type="text" th:field="*{user.firstName}" placeholder="First Name" required/>
+    <br><br>
+    
+    <input type="text" th:field="*{user.lastName}" placeholder="Last Name" required/>
+    <br><br>
+
+    <button type="submit">Εγγραφή Επιτροπής</button>
+</form>
+
+</body>
+</html>

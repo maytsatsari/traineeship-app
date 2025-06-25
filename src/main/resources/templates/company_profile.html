@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Company Profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h1>Company Profile</h1>
+
+    <p><strong>Company Name:</strong> <span th:text="${company.companyName}"></span></p>
+    <p><strong>Location:</strong> <span th:text="${company.location}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${company.email}"></span></p>
+    <p><strong>First Name:</strong> <span th:text="${company.firstName}"></span></p>
+    <p><strong>Last Name:</strong> <span th:text="${company.lastName}"></span></p>
+
+    <a th:href="@{/company/edit-profile}">Edit Profile</a>
+</body>
+</html>

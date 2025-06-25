@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Company Profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Edit Profile</h2>
+<form th:action="@{/company/edit-profile}" th:object="${company}" method="post">
+    <label>Company Name:</label>
+    <input type="text" th:field="*{companyName}" required/><br/>
+
+    <label>Location:</label>
+    <input type="text" th:field="*{location}" required/><br/>
+
+    <label>Email:</label>
+    <input type="email" th:field="*{email}" required/><br/>
+
+    <label>First Name:</label>
+    <input type="text" th:field="*{firstName}" required/><br/>
+
+    <label>Last Name:</label>
+    <input type="text" th:field="*{lastName}" required/><br/>
+
+    <label>Password:</label>
+    <input type="password" th:field="*{password}" required/><br/>
+
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

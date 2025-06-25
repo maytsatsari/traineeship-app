@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Καθηγητής - Πίνακας Ελέγχου</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            padding: 40px;
+            background-color: #f4f6f8;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        .position-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 25px;
+            margin-bottom: 30px;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .position-card h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+
+        .position-card p {
+            margin: 8px 0;
+            color: #444;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .has-student {
+            background-color: #28a745;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #333;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        .no-positions {
+            text-align: center;
+            font-style: italic;
+            color: #777;
+            margin-top: 30px;
+        }
+
+        .logout-form {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .logout-form button {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .logout-form button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+<h1> Πίνακας Ελέγχου Καθηγητή</h1>
+
+<div th:if="${successMessage}" class="alert-success">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<div th:if="${positions == null or #lists.isEmpty(positions)}" class="no-positions">
+     Δεν έχετε αναλάβει ακόμη θέσεις πρακτικής.
+</div>
+
+<div th:each="pos : ${positions}" class="position-card">
+    <h3>Θέση: <span th:text="${pos.title}">Τίτλος</span></h3>
+    <p><strong>Περιγραφή:</strong> <span th:text="${pos.description}">-</span></p>
+    <p><strong>Εταιρεία:</strong> <span th:text="${pos.company.companyName}">-</span></p>
+    <p><strong>Φοιτητής:</strong>
+        <span th:if="${pos.assignedStudent != null}" th:text="${pos.assignedStudent.fullName}" class="badge has-student"></span>
+        <span th:unless="${pos.assignedStudent != null}" class="badge">Χωρίς Ανάθεση</span>
+    </p>
+
+    <!-- Φόρμα Αξιολόγησης -->
+    <form th:action="@{/professor/evaluate}" method="post">
+        <input type="hidden" name="positionId" th:value="${pos.id}" />
+
+        <h4>Αξιολόγηση Φοιτητή</h4>
+        <label>Κίνητρο:
+            <select name="motivation" required>
+                <option th:each="i : ${#numbers.sequence(1,5)}" th:value="${i}" th:text="${i}"></option>
+            </select>
+        </label>
+
+        <label>Αποτελεσματικότητα:
+            <select name="effectiveness" required>
+                <option th:each="i : ${#numbers.sequence(1,5)}" th:value="${i}" th:text="${i}"></option>
+            </select>
+        </label>
+
+        <label>Αποδοτικότητα:
+            <select name="efficiency" required>
+                <option th:each="i : ${#numbers.sequence(1,5)}" th:value="${i}" th:text="${i}"></option>
+            </select>
+        </label>
+
+        <h4>Αξιολόγηση Εταιρείας</h4>
+        <label>Εγκαταστάσεις:
+            <select name="facilities" required>
+                <option th:each="i : ${#numbers.sequence(1,5)}" th:value="${i}" th:text="${i}"></option>
+            </select>
+        </label>
+
+        <label>Καθοδήγηση Φοιτητή:
+            <select name="guidance" required>
+                <option th:each="i : ${#numbers.sequence(1,5)}" th:value="${i}" th:text="${i}"></option>
+            </select>
+        </label>
+
+        <label>Σχόλια:
+            <textarea name="comments" rows="3" placeholder="Σχόλια (προαιρετικά)"></textarea>
+        </label>
+
+        <button type="submit" class="submit-btn"> Υποβολή Αξιολόγησης</button>
+    </form>
+</div>
+
+<form th:action="@{/logout}" method="post" class="logout-form">
+    <button type="submit"> Αποσύνδεση</button>
+</form>
+
+</body>
+</html>

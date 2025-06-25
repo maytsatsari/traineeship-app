@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Αξιολογήσεις Θέσεων</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            padding: 40px;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border: 1px solid #c3e6cb;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        th, td {
+            padding: 14px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .pass {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .fail {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .btn-finalize,
+        .btn-fail,
+        .btn-reset {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-finalize { background-color: #28a745; }
+        .btn-finalize:hover { background-color: #218838; }
+
+        .btn-fail { background-color: #dc3545; }
+        .btn-fail:hover { background-color: #c82333; }
+
+        .btn-reset { background-color: #ffc107; color: black; }
+        .btn-reset:hover { background-color: #e0a800; }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .back-button,
+        .pdf-link {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .back-button:hover { background-color: #5a6268; }
+
+        .pdf-link {
+            background-color: #17a2b8;
+            margin-right: 10px;
+        }
+
+        .pdf-link:hover { background-color: #138496; }
+
+        .empty-row {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Θέσεις Πρακτικής σε Εξέλιξη</h2>
+
+<div th:if="${successMessage}" class="alert-success">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<input type="text" id="searchInput" class="search-box" placeholder=" Αναζήτηση με βάση τίτλο, φοιτητή, εταιρεία...">
+
+<table>
+    <thead>
+        <tr>
+            <th>Τίτλος Θέσης</th>
+            <th>Φοιτητής</th>
+            <th>Εταιρεία</th>
+            <th>Καθηγητής</th>
+            <th>Μ.Ο. Αξιολόγησης</th>
+            <th>Αποτέλεσμα</th>
+            <th>Ενέργεια</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="pos : ${positions}" class="filter-row">
+            <td th:text="${pos.title}">Τίτλος</td>
+            <td>
+                <span th:if="${pos.assignedStudent != null}" th:text="${pos.assignedStudent.fullName}"></span>
+                <span th:unless="${pos.assignedStudent != null}">—</span>
+            </td>
+            <td th:text="${pos.company.companyName}">Εταιρεία</td>
+            <td>
+                <span th:if="${pos.supervisingProfessor != null}" th:text="${pos.supervisingProfessor.fullName}"></span>
+                <span th:unless="${pos.supervisingProfessor != null}">—</span>
+            </td>
+<td th:classappend="${averageRatings[pos.id] != null and averageRatings[pos.id] >= 3} ? 'pass' : 'fail'"
+    th:text="${averageRatings[pos.id] != null ? #numbers.formatDecimal(averageRatings[pos.id], 1, 1) : '—'}">
+</td>
+
+
+
+
+            <td>
+                <span th:if="${pos.finalResult == null}">Σε εξέλιξη</span>
+                <span th:if="${pos.finalResult == 'PASS'}" class="pass">PASS</span>
+                <span th:if="${pos.finalResult == 'FAIL'}" class="fail">FAIL</span>
+            </td>
+            <td>
+                <div class="button-group" th:if="${averageRatings[pos.id] != null and pos.finalResult == null}">
+                    <form th:action="@{/committee/finalize}" method="post">
+                        <input type="hidden" name="positionId" th:value="${pos.id}" />
+                        <input type="hidden" name="result" value="PASS" />
+                        <button type="submit" class="btn-finalize">PASS</button>
+                    </form>
+
+                    <form th:action="@{/committee/finalize}" method="post">
+                        <input type="hidden" name="positionId" th:value="${pos.id}" />
+                        <input type="hidden" name="result" value="FAIL" />
+                        <button type="submit" class="btn-fail">FAIL</button>
+                    </form>
+                </div>
+
+                <span th:if="${averageRatings[pos.id] == null and pos.finalResult == null}">Δεν έχει αξιολογηθεί</span>
+
+                <form th:if="${pos.finalResult != null}" th:action="@{/committee/reset}" method="post">
+                    <input type="hidden" name="positionId" th:value="${pos.id}" />
+                    <button type="submit" class="btn-reset">Επαναφορά</button>
+                </form>
+            </td>
+        </tr>
+
+        <tr th:if="${positions.size() == 0}">
+            <td colspan="7" class="empty-row">Δεν υπάρχουν θέσεις σε εξέλιξη.</td>
+        </tr>
+    </tbody>
+</table>
+
+<div style="margin-top: 30px; text-align:center;">
+    <a href="/committee/evaluations/pdf" class="pdf-link">Εξαγωγή σε PDF</a>
+    <a th:href="@{/committee_dashboard}" class="back-button">Επιστροφή στο Dashboard</a>
+</div>
+
+<script>
+    document.getElementById("searchInput").addEventListener("keyup", function () {
+        let filter = this.value.toLowerCase();
+        document.querySelectorAll("tr.filter-row").forEach(function (row) {
+            row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
+        });
+    });
+</script>
+
+</body>
+</html>

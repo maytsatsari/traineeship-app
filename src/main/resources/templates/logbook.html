@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Logbook Φοιτητή</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h1>Το Ημερολόγιό μου</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Ημερομηνία</th>
+                <th>Περιγραφή</th>
+                <th>Ώρες</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entry : ${logEntries}">
+                <td th:text="${entry.date}"></td>
+                <td th:text="${entry.description}"></td>
+                <td th:text="${entry.hours}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${#lists.isEmpty(logEntries)}">
+        <p>Δεν υπάρχουν καταχωρήσεις.</p>
+    </div>
+</body>
+</html>
