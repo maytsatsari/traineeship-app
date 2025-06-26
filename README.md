@@ -73,17 +73,6 @@ Then access the application via `http://localhost:8080`.
 
 
 
-##  UI Screenshots
-
-You can add example screenshots to the repo and reference them like so:
-
-```markdown
-![Login Page](./screenshots/login.png)
-![Dashboard](./screenshots/dashboard.png)
-```
-
-To use this, create a `screenshots/` folder in the root of the repo and upload .png images from your browser or Eclipse interface.
-
 ## Authors
 
 This project was developed as part of the **Software Engineering Project Course**
